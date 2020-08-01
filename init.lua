@@ -3,8 +3,8 @@
 
 minetest.register_privilege("engrave_long_names", "When using the Engraving Table, Player can set names that contain more than 40 characters and/or newlines")
 
-minetest.register_node("engrave:table", {
-	description = "Engraving Table",
+minetest.register_node("change_image_of_item:change_image_of_item_table", {
+	description = "Magic Table (change image of a item)",
 	tiles = {"engrave_top.png", "engrave_side.png"},
 	groups = {choppy=2,flammable=3, oddly_breakable_by_hand=2},
 	sounds = default and default.node_sound_wood_defaults(),
@@ -12,7 +12,7 @@ minetest.register_node("engrave:table", {
 		local pname=player:get_player_name()
 		local stack=player:get_wielded_item()
 		if stack:get_count()==0 then
-			minetest.chat_send_player(pname, "Please wield the item you want to name, and then click the engraving table again.")
+			minetest.chat_send_player(pname, "Please wield the item you want to change image, and then click the Magic Table again.")
 			return
 		end
 		local idef=minetest.registered_items[stack:get_name()]
@@ -68,9 +68,9 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		end
 		
 		if fields.name==name then
-			meta:set_string("description", "")
+			meta:set_string("inventory_image", "")
 		else
-			meta:set_string("description", fields.name)
+			meta:set_string("inventory_image", fields.name)
 		end
 		--write back
 		player:set_wielded_item(stack)
@@ -78,10 +78,10 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 end)
 
 minetest.register_craft({
-	output = "engrave:table",
+	output = "change_image_of_item:change_image_of_item_table",
 	recipe = {
 		{"group:wood", "group:wood", "group:wood"},
-		{"group:wood", "default:diamond", "group:wood"},
+		{"group:wood", "default:mese", "group:wood"},
 		{"group:wood", "group:wood", "group:wood"},
 	},
 })
